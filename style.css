@@ -1,0 +1,118 @@
+:root{
+    --bg-black: #000;
+    --btn-red: #e60000;
+    --btn-red-dark: #b30000;
+    --paper-white: #fefefe;
+  }
+
+  body{
+    height:100%;
+    margin:0;
+    font-family: "Press Start 2P", monospace; /* si no está, cae en monospace */
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    background:var(--bg-black);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+ /* Contenedor central */
+  .stage{
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    transition:background 600ms ease;
+  }
+
+ /* Botón estilo pixel art */
+  .pixel-btn{
+    --size:180px;
+    width:var(--size);
+    height:64px;
+    background:linear-gradient(#ff4d4d, var(--btn-red));
+    border:6px solid #440000;
+    box-shadow:
+      6px 6px 0 0 #000 inset,
+      8px 8px 0 0 rgba(0,0,0,0.6);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:18px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    cursor:pointer;
+    user-select:none;
+    image-rendering:pixelated;
+    /* Pixel edge effect */
+    border-radius:6px;
+    transform:translateZ(0);
+  }
+
+/* Pixelated outline using box-shadow duplicates for 'blocky' pixel look */
+  .pixel-btn::before{
+    content:"";
+    position:absolute;
+    pointer-events:none;
+  }
+
+  /* Cuando inicia la animación: fondo papel cuadriculado */
+  .paper {
+    background-color: var(--paper-white);
+    background-image:
+      linear-gradient(to right, rgba(0,0,0,0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,0,0,0.08) 1px, transparent 1px);
+    background-size: 48px 48px; /* tamaño de cuadros grandes (ajusta aquí) */
+  }
+
+/* Canvas donde dibujaremos la pokeball */
+  #pokecanvas{
+    image-rendering: pixelated; /* mantiene los píxeles rectos cuando escalado */
+    width: 288px; /* 24 * 12 = 288 */
+    height: 288px;
+    /* centrado y sombra ligera */
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    display:none; /* aparece después del click */
+    background: transparent;
+  }
+
+/* Pequeña instrucción debajo del canvas */
+  .caption{
+    position:absolute;
+    bottom:20px;
+    width:100%;
+    text-align:center;
+    color:#222;
+    font-size:12px;
+    display:none;
+  }
+
+/* Animación suave al mostrar canvas */
+  .showCanvas #pokecanvas{
+    display:block;
+    animation: pop 400ms ease;
+  }
+  .showCanvas .caption{ display:block; }
+
+  @keyframes pop{
+    from { transform: scale(0.8); opacity:0 }
+    to { transform: scale(1); opacity:1 }
+  }
+
+  /* Responsive: en pantallas pequeñas reduce el tamaño */
+  @media (max-width:420px){
+    #pokecanvas{ width: 220px; height:220px; }
+    .pixel-btn{ --size:140px; font-size:14px; }
+  }
+
+  #startBtn {
+  position: absolute;
+  top:120px;
+  right:245px;
+}
